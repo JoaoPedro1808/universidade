@@ -3,6 +3,8 @@ package com.example.crud;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class Gerenciador {
@@ -28,6 +30,25 @@ public class Gerenciador {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Erro ao criar aluno no banco de dados", e);
+        }
+    }
+
+    public List<Universitario> listarAlunos() {
+        List<Universitario> listaUniversitarios =new ArrayList<>();
+
+        try (Connection connection = conexao();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM universitarios");
+            ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                listaUniversitarios.add(new Universitario(rs.getString("nome"), rs.getString("matricula"), rs.getString("sexo")));
+            }
+
+            return listaUniversitarios;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao listar os alunos", e);
         }
     }
 }
