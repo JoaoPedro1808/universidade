@@ -16,14 +16,14 @@ public class Gerenciador {
         return DriverManager.getConnection(jdbcurl, user, password);
     }
 
-    public Universitario novoAluno(String nomeAluno, String matriculaAluno, String sexoAluno, String idadeAluno) {
+    public Universitario novoAluno(String nomeAluno, int matriculaAluno, String sexoAluno, int idadeAluno) {
         try (Connection connection = conexao();
              PreparedStatement ps = connection.prepareStatement("INSERT INTO universitarios (matricula, nome, sexo, idade) VALUES (?, ?, ?, ?)")) {
 
-            ps.setString(1, matriculaAluno);
+            ps.setInt(1, matriculaAluno);
             ps.setString(2, nomeAluno);
             ps.setString(3, sexoAluno);
-            ps.setString(4, idadeAluno);
+            ps.setInt(4, idadeAluno);
             ps.executeUpdate();
 
             return new Universitario(nomeAluno, matriculaAluno, sexoAluno, idadeAluno);
@@ -35,14 +35,14 @@ public class Gerenciador {
     }
 
     public List<Universitario> listarAlunos() {
-        List<Universitario> listaUniversitarios =new ArrayList<>();
+        List<Universitario> listaUniversitarios = new ArrayList<>();
 
         try (Connection connection = conexao();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM universitarios");
             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                listaUniversitarios.add(new Universitario(rs.getString("nome"), rs.getString("matricula"), rs.getString("sexo"), rs.getString("idade")));
+                listaUniversitarios.add(new Universitario(rs.getString("nome"), rs.getInt("matricula"), rs.getString("sexo"), rs.getInt("idade")));
             }
 
             return listaUniversitarios;
@@ -53,11 +53,11 @@ public class Gerenciador {
         }
     }
 
-    public void removerAluno(String matriculaAluno) {
+    public void removerAluno(int matriculaAluno) {
         try (Connection connection = conexao();
             PreparedStatement ps = connection.prepareStatement("DELETE FROM universitarios WHERE matricula = ?")) {
 
-            ps.setString(1, matriculaAluno);
+            ps.setInt(1, matriculaAluno);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -66,18 +66,18 @@ public class Gerenciador {
         }
     }
 
-    public Universitario buscarAlunoPorMatricula(String matriculaAluno) {
+    public Universitario buscarAlunoPorMatricula(int matriculaAluno) {
         try (Connection connection = conexao();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM universitarios WHERE matricula = ?")) {
 
-            ps.setString(1, matriculaAluno);
+            ps.setInt(1, matriculaAluno);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String nome = rs.getString("nome");
-                    String matricula = rs.getString("matricula");
+                    int matricula = rs.getInt("matricula");
                     String sexo = rs.getString("sexo");
-                    String idade = rs.getString("idade");
+                    int idade = rs.getInt("idade");
 
                     return new Universitario(nome, matricula, sexo, idade);
                 } else {
@@ -91,14 +91,14 @@ public class Gerenciador {
         }
     }
 
-    public void atualizarDadosAluno(String matriculaAluno, String nomeAluno, String sexoAluno, String idadeAluno) {
+    public void atualizarDadosAluno(int matriculaAluno, String nomeAluno, String sexoAluno, int idadeAluno) {
         try (Connection connection = conexao();
             PreparedStatement ps = connection.prepareStatement("UPDATE universitarios SET nome = ?, sexo = ?, idade = ? WHERE matricula = ?")) {
 
             ps.setString(1, nomeAluno);
             ps.setString(2, sexoAluno);
-            ps.setString(3, idadeAluno);
-            ps.setString(4, matriculaAluno);
+            ps.setInt(3, idadeAluno);
+            ps.setInt(4, matriculaAluno);
             ps.executeUpdate();
 
         } catch (SQLException e) {

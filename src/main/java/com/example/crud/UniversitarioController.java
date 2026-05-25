@@ -18,7 +18,7 @@ public class UniversitarioController {
 
     @PostMapping("/novo-aluno")
     @Operation(summary = "Inserir novo aluno", description = "Inserir um novo aluno do banco de dados")
-    public Universitario inserirNovoAluno(@RequestParam String nome, @RequestParam String matricula, @RequestParam String sexo, @RequestParam String idade) {
+    public Universitario inserirNovoAluno(@RequestParam String nome, @RequestParam int matricula, @RequestParam String sexo, @RequestParam int idade) {
         Universitario universitario = gerenciador.novoAluno(nome, matricula, sexo, idade);
         return universitario;
     }
@@ -31,20 +31,20 @@ public class UniversitarioController {
 
     @GetMapping("/buscar-aluno")
     @Operation(summary = "Buscar por aluno", description = "Buscar por um aluno com a matricula")
-    public Universitario buscarAluno(@RequestParam String matricula) {
+    public Universitario buscarAluno(@RequestParam int matricula) {
         return gerenciador.buscarAlunoPorMatricula(matricula);
     }
 
     @DeleteMapping("/remover-aluno")
     @Operation(summary = "Remover um aluno", description = "Remover um aluno do banco de dados")
-    public String removerUmAluno(@RequestParam String matricula) {
+    public String removerUmAluno(@RequestParam int matricula) {
         gerenciador.removerAluno(matricula);
         return "Aluno deletado";
     }
 
     @PutMapping("/atualizar-aluno")
     @Operation(summary = "Atualizar aluno", description = "Atualizar os dados do aluno")
-    public void atualizarAluno(@RequestParam String matricula, @RequestParam String nome, @RequestParam String sexo, @RequestParam String idade) {
+    public void atualizarAluno(@RequestParam int matricula, @RequestParam String nome, @RequestParam String sexo, @RequestParam int idade) {
         gerenciador.atualizarDadosAluno(matricula, nome, sexo, idade);
     }
 }
