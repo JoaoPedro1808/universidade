@@ -44,7 +44,7 @@ public class UniversitarioController {
 
     @PutMapping("/atualizar-aluno")
     @Operation(summary = "Atualizar aluno", description = "Atualizar os dados do aluno")
-    public void atualizarAluno(@RequestParam String nome, @RequestParam String matricula, @RequestParam String sexo, @RequestParam String idade) {
-        gerenciador.atualizarDadosAluno(nome, matricula, sexo, idade);
+    public void atualizarAluno(@RequestParam String matricula, @RequestParam String nome, @RequestParam String sexo, @RequestParam String idade) {
+        gerenciador.atualizarDadosAluno(matricula, nome, sexo, idade);
     }
 }

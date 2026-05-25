@@ -93,12 +93,12 @@ public class Gerenciador {
 
     public void atualizarDadosAluno(String matriculaAluno, String nomeAluno, String sexoAluno, String idadeAluno) {
         try (Connection connection = conexao();
-            PreparedStatement ps = connection.prepareStatement("UPDATE universitarios SET nome = ?, idade = ? WHERE matricula = ?")) {
+            PreparedStatement ps = connection.prepareStatement("UPDATE universitarios SET nome = ?, sexo = ?, idade = ? WHERE matricula = ?")) {
 
-            ps.setString(1, matriculaAluno);
-            ps.setString(2, nomeAluno);
-            ps.setString(3, sexoAluno);
-            ps.setString(4, idadeAluno);
+            ps.setString(1, nomeAluno);
+            ps.setString(2, sexoAluno);
+            ps.setString(3, idadeAluno);
+            ps.setString(4, matriculaAluno);
             ps.executeUpdate();
 
         } catch (SQLException e) {
