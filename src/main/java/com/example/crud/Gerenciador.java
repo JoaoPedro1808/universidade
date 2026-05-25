@@ -51,4 +51,17 @@ public class Gerenciador {
             throw new RuntimeException("Erro ao listar os alunos", e);
         }
     }
+
+    public void removerAluno(String matriculaAluno) {
+        try (Connection connection = conexao();
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM universitarios WHERE matricula = ?")) {
+
+            ps.setString(1, matriculaAluno);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao remover o aluno", e);
+        }
+    }
 }

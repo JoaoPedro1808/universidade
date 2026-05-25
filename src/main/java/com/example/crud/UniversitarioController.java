@@ -28,4 +28,11 @@ public class UniversitarioController {
     public List<Universitario> listarAlunos() {
         return gerenciador.listarAlunos();
     }
+
+    @DeleteMapping("/remover-aluno")
+    @Operation(summary = "Remover um aluno", description = "Remover um aluno do banco de dados")
+    public String removerUmAluno(@RequestParam String matricula) {
+        gerenciador.removerAluno(matricula);
+        return "Aluno deletado";
+    }
 }
