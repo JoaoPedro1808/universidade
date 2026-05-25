@@ -18,8 +18,8 @@ public class UniversitarioController {
 
     @PostMapping("/novo-aluno")
     @Operation(summary = "Inserir novo aluno", description = "Inserir um novo aluno do banco de dados")
-    public Universitario inserirNovoAluno(@RequestParam String nome, @RequestParam String matricula, @RequestParam String sexo) {
-        Universitario universitario = gerenciador.novoAluno(nome, matricula, sexo);
+    public Universitario inserirNovoAluno(@RequestParam String nome, @RequestParam String matricula, @RequestParam String sexo, @RequestParam String idade) {
+        Universitario universitario = gerenciador.novoAluno(nome, matricula, sexo, idade);
         return universitario;
     }
 

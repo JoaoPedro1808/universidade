@@ -16,16 +16,17 @@ public class Gerenciador {
         return DriverManager.getConnection(jdbcurl, user, password);
     }
 
-    public Universitario novoAluno(String nomeAluno, String matriculaAluno, String sexoAluno) {
+    public Universitario novoAluno(String nomeAluno, String matriculaAluno, String sexoAluno, String idadeAluno) {
         try (Connection connection = conexao();
-             PreparedStatement ps = connection.prepareStatement("INSERT INTO universitarios (matricula, nome, sexo) VALUES (?, ?, ?)")) {
+             PreparedStatement ps = connection.prepareStatement("INSERT INTO universitarios (matricula, nome, sexo, idade) VALUES (?, ?, ?, ?)")) {
 
             ps.setString(1, matriculaAluno);
             ps.setString(2, nomeAluno);
             ps.setString(3, sexoAluno);
+            ps.setString(4, idadeAluno);
             ps.executeUpdate();
 
-            return new Universitario(nomeAluno, matriculaAluno, sexoAluno);
+            return new Universitario(nomeAluno, matriculaAluno, sexoAluno, idadeAluno);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,7 +42,7 @@ public class Gerenciador {
             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                listaUniversitarios.add(new Universitario(rs.getString("nome"), rs.getString("matricula"), rs.getString("sexo")));
+                listaUniversitarios.add(new Universitario(rs.getString("nome"), rs.getString("matricula"), rs.getString("sexo"), rs.getString("idade")));
             }
 
             return listaUniversitarios;
@@ -76,8 +77,9 @@ public class Gerenciador {
                     String nome = rs.getString("nome");
                     String matricula = rs.getString("matricula");
                     String sexo = rs.getString("sexo");
+                    String idade = rs.getString("idade");
 
-                    return new Universitario(nome, matricula, sexo);
+                    return new Universitario(nome, matricula, sexo, idade);
                 } else {
                     return null;
                 }
