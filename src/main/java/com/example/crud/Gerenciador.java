@@ -90,4 +90,20 @@ public class Gerenciador {
             throw new RuntimeException("Erro ao localizar o aluno", e);
         }
     }
+
+    public void atualizarDadosAluno(String matriculaAluno, String nomeAluno, String sexoAluno, String idadeAluno) {
+        try (Connection connection = conexao();
+            PreparedStatement ps = connection.prepareStatement("UPDATE universitarios SET nome = ?, idade = ? WHERE matricula = ?")) {
+
+            ps.setString(1, matriculaAluno);
+            ps.setString(2, nomeAluno);
+            ps.setString(3, sexoAluno);
+            ps.setString(4, idadeAluno);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao atualizar os dados do aluno", e);
+        }
+    }
 }
