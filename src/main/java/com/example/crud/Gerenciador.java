@@ -64,4 +64,28 @@ public class Gerenciador {
             throw new RuntimeException("Erro ao remover o aluno", e);
         }
     }
+
+    public Universitario buscarAlunoPorMatricula(String matriculaAluno) {
+        try (Connection connection = conexao();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM universitarios WHERE matricula = ?")) {
+
+            ps.setString(1, matriculaAluno);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String nome = rs.getString("nome");
+                    String matricula = rs.getString("matricula");
+                    String sexo = rs.getString("sexo");
+
+                    return new Universitario(nome, matricula, sexo);
+                } else {
+                    return null;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao localizar o aluno", e);
+        }
+    }
 }

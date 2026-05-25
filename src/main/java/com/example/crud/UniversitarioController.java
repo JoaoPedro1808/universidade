@@ -29,6 +29,12 @@ public class UniversitarioController {
         return gerenciador.listarAlunos();
     }
 
+    @GetMapping("/buscar-aluno")
+    @Operation(summary = "Buscar por aluno", description = "Buscar por um aluno com a matricula")
+    public Universitario buscarAluno(@RequestParam String matricula) {
+        return gerenciador.buscarAlunoPorMatricula(matricula);
+    }
+
     @DeleteMapping("/remover-aluno")
     @Operation(summary = "Remover um aluno", description = "Remover um aluno do banco de dados")
     public String removerUmAluno(@RequestParam String matricula) {
