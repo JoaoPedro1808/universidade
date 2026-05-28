@@ -18,8 +18,8 @@ public class UniversitarioController {
 
     @PostMapping("/novo-aluno")
     @Operation(summary = "Inserir novo aluno", description = "Inserir um novo aluno do banco de dados")
-    public Universitario inserirNovoAluno(@RequestParam String nome, @RequestParam int matricula, @RequestParam String sexo, @RequestParam int idade) {
-        return gerenciador.novoAluno(nome, matricula, sexo, idade);
+    public Universitario inserirNovoAluno(@RequestParam String nome, @RequestParam int matricula, @RequestParam String sexo, @RequestParam int idade, @RequestParam float nota) {
+        return gerenciador.novoAluno(nome, matricula, sexo, idade, nota);
     }
 
     @GetMapping("/lista-alunos")
@@ -43,7 +43,7 @@ public class UniversitarioController {
 
     @PutMapping("/atualizar-aluno")
     @Operation(summary = "Atualizar aluno", description = "Atualizar os dados do aluno")
-    public void atualizarAluno(@RequestParam int matricula, @RequestParam String nome, @RequestParam String sexo, @RequestParam int idade) {
-        gerenciador.atualizarDadosAluno(matricula, nome, sexo, idade);
+    public void atualizarAluno(@RequestParam int matricula, @RequestParam float nota) {
+        gerenciador.atualizarDadosAluno(matricula, nota);
     }
 }

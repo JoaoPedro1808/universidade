@@ -16,17 +16,18 @@ public class Gerenciador {
         return DriverManager.getConnection(jdbcurl, user, password);
     }
 
-    public Universitario novoAluno(String nomeAluno, int matriculaAluno, String sexoAluno, int idadeAluno) {
+    public Universitario novoAluno(String nomeAluno, int matriculaAluno, String sexoAluno, int idadeAluno, float notaAluno) {
         try (Connection connection = conexao();
-             PreparedStatement ps = connection.prepareStatement("INSERT INTO universitarios (matricula, nome, sexo, idade) VALUES (?, ?, ?, ?)")) {
+             PreparedStatement ps = connection.prepareStatement("INSERT INTO universitarios (matricula, nome, sexo, idade, nota) VALUES (?, ?, ?, ?, ?)")) {
 
             ps.setInt(1, matriculaAluno);
             ps.setString(2, nomeAluno);
             ps.setString(3, sexoAluno);
             ps.setInt(4, idadeAluno);
+            ps.setFloat(5, notaAluno);
             ps.executeUpdate();
 
-            return new Universitario(nomeAluno, matriculaAluno, sexoAluno, idadeAluno);
+            return new Universitario(nomeAluno, matriculaAluno, sexoAluno, idadeAluno, notaAluno);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,7 +43,7 @@ public class Gerenciador {
             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                listaUniversitarios.add(new Universitario(rs.getString("nome"), rs.getInt("matricula"), rs.getString("sexo"), rs.getInt("idade")));
+                listaUniversitarios.add(new Universitario(rs.getString("nome"), rs.getInt("matricula"), rs.getString("sexo"), rs.getInt("idade"), rs.getFloat("nota")));
             }
 
             return listaUniversitarios;
@@ -78,8 +79,9 @@ public class Gerenciador {
                     int matricula = rs.getInt("matricula");
                     String sexo = rs.getString("sexo");
                     int idade = rs.getInt("idade");
+                    float nota = rs.getFloat("nota");
 
-                    return new Universitario(nome, matricula, sexo, idade);
+                    return new Universitario(nome, matricula, sexo, idade, nota);
                 } else {
                     return null;
                 }
@@ -91,14 +93,12 @@ public class Gerenciador {
         }
     }
 
-    public void atualizarDadosAluno(int matriculaAluno, String nomeAluno, String sexoAluno, int idadeAluno) {
+    public void atualizarDadosAluno(int matriculaAluno, float notaAluno) {
         try (Connection connection = conexao();
-            PreparedStatement ps = connection.prepareStatement("UPDATE universitarios SET nome = ?, sexo = ?, idade = ? WHERE matricula = ?")) {
+            PreparedStatement ps = connection.prepareStatement("UPDATE universitarios SET nota = ? WHERE matricula = ?")) {
 
-            ps.setString(1, nomeAluno);
-            ps.setString(2, sexoAluno);
-            ps.setInt(3, idadeAluno);
-            ps.setInt(4, matriculaAluno);
+            ps.setInt(1, matriculaAluno);
+            ps.setFloat(2, notaAluno);
             ps.executeUpdate();
 
         } catch (SQLException e) {
